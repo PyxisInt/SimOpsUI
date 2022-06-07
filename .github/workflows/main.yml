@@ -1,4 +1,4 @@
-name: SimOps on Windows
+name: SimOps for Windows
 
 on:
   push:
