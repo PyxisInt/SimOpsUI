@@ -17,9 +17,19 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+    - name: Update Version Number for Models
+      uses: jacobtomlinson/gha-find-replace@2.0.0
+      with:
+        find: "<Version>1.0.0</Version>"
+        replace: "<Version>1.0.${{ github.run_number }}</Version>"
+        include: "**SimOps.Sdk.csproj"
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Create Nuget Package for SDK
+      run: dotnet pack -c Release -o . ./SimOps.Sdk/SimOps.Sdk.csproj
+    - name: Publish Nuget Package for SDK
+      run: dotnet nuget push SimOps.Sdk.*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
