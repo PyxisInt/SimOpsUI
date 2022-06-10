@@ -19,6 +19,7 @@ jobs:
         dotnet-version: 6.0.x
     - name: Update Version Number for Models
       uses: jacobtomlinson/gha-find-replace@2.0.0
+      runs-on: ubuntu-latest
       with:
         find: "<Version>1.0.0</Version>"
         replace: "<Version>1.0.${{ github.run_number }}</Version>"
