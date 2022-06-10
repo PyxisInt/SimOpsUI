@@ -33,6 +33,16 @@ namespace SimOpsUI
                     Program.TokenExpiry = loginResult.AccessTokenExpiration.UtcDateTime;
                 }
             }
+            else if (Program.Config.Authentication.Method.ToLower().Equals("internal"))
+            {
+                var frmLogin = new LoginForm();
+                DialogResult dr = frmLogin.ShowDialog();
+                if (dr != DialogResult.OK)
+                {
+                    Program.ShowError("Login Failed! Unknown username/password");
+                    return;
+                }
+            }
             tsslUser.Text = Program.Username ?? "Not Logged In";
         }
     }

@@ -47,17 +47,7 @@ namespace SimOpsUI
                     return;
                 }
                 Sdk = new Sdk(Config.SimOpsServer);
-                if (Config.Authentication.Method.ToLower().Equals("internal"))
-                {
-                    var frmLogin = new LoginForm();
-                    DialogResult dr = frmLogin.ShowDialog();
-                    if (dr != DialogResult.OK)
-                    {
-                        ShowError("Login Failed! Unknown username/password");
-                        return;
-                    }
-                }
-                //handle login via MainForm
+                //handle login via MainForm for Auth0
                 Application.Run(new MainForm());
             }
             catch (Exception ex)

@@ -36,9 +36,8 @@ namespace SimOpsUI
             }
         }
 
-        private async void btnLogin_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
             if (tbUsername.Text.IsEmpty())
             {
                 Program.ShowError("A user name must be specified!");
@@ -53,14 +52,14 @@ namespace SimOpsUI
                 };
                 try
                 {
-                    var loginResult = await Program.Sdk.LoginService.LoginAsync(request);
-                    if (loginResult != null)
+                    var login = Program.Sdk.LoginService.LoginAsync(request);
+                    login.Wait();
+                    if (login.Result != null)
                     {
-                        Program.Username = loginResult.Username;
-                        Program.AccessToken = loginResult.AccessToken;
-                        Program.RefreshToken = loginResult.RefreshToken;
-                        Program.TokenExpiry = loginResult.ExpiresAt;
-                        this.DialogResult = DialogResult.OK;
+                        Program.Username = login.Result.Username;
+                        Program.AccessToken = login.Result.AccessToken;
+                        Program.RefreshToken = login.Result.RefreshToken;
+                        Program.TokenExpiry = login.Result.ExpiresAt;
                     }
                     else
                     {
